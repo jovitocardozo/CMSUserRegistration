@@ -9,8 +9,6 @@ namespace UserRegistrationAPI.Models
     public class User
     {
         public int userId { get; set; }
-        [Required]
-        [StringLength(17, MinimumLength =5)]
         public string userName { get; set; }
     }
 }

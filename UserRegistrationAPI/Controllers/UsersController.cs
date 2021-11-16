@@ -27,10 +27,17 @@ namespace UserRegistrationAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(string newUserName)
         {
-            var result = apiContext.AddUser(newUserName);
-            //var result = _userRepository.Create(newUserName);
-
-            return Ok(result);
+            if (!string.IsNullOrEmpty(newUserName))
+            {
+                var result = apiContext.AddUser(newUserName);
+                //var result = _userRepository.Create(newUserName);
+                if (result.Count > 3)
+                    return Ok(result);
+                else
+                    return Ok("Duplicate user! Enter a different user name");
+            }
+            else
+                return Ok("User name is required!"); 
         }
 
 
@@ -45,17 +52,29 @@ namespace UserRegistrationAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser(int userId, string newName)
         {
-            List<User> users = apiContext.ModifyUser(userId, newName);
-            //List<User> users = _userRepository.Update(userId, newName);
-            return Ok(users);
+            if (userId!=0 && !string.IsNullOrEmpty(newName))
+            {
+                List<User> users = apiContext.ModifyUser(userId, newName);
+                //List<User> users = _userRepository.Update(userId, newName);
+                return Ok(users);
+            }
+            return Ok("User id cannot be empty or zero and user name cannot be passed as empty or null!");
         }
 
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(int userId)
         {
-            List<User> users = apiContext.DeleteUser(userId);
-            //List<User> users = _userRepository.Delete(userId);
-            return Ok(users);
+            if (userId > 0)
+            {
+                List<User> users = apiContext.DeleteUser(userId);
+                //List<User> users = _userRepository.Delete(userId);
+                if (users.Count < 3)
+                    return Ok(users);
+                else
+                    return Ok("User id does not exist! Please enter a valid user Id!");
+            }
+            return Ok("User Id cannot be a null or Zero!");
+            
         }
     }
 }
