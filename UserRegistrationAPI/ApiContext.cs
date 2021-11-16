@@ -17,7 +17,6 @@ namespace UserRegistrationAPI.Models
 
         public void LoadUsers()
         {
-            //int id = 1;
             User user = new User() { userId = 2, userName = "Peter" };
             Users.Add(user);
             user = new User() { userId = 1, userName = "John" };
@@ -28,7 +27,6 @@ namespace UserRegistrationAPI.Models
 
         public List<User> GetUsers()
         {
-            //return Users.Local.ToList<User>();
             return Users.Local.OrderBy(u=>u.userId).ToList();
         }
 
@@ -61,7 +59,6 @@ namespace UserRegistrationAPI.Models
                     Users.Local.Add(existingUser);
                     
                 }
-                //return Users.Local.ToList();
             }
 
             return Users.Local.ToList();
